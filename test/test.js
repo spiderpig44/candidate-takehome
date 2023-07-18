@@ -50,13 +50,85 @@ describe('GET /api/games', () => {
     });
 });
 
+/**
+ * creating game for searching test
+ */
+ describe('POST /api/games', () => {
+    let data = {
+        publisherId: "0987654321",
+        name: "Test App",
+        platform: "android",
+        storeId: "5678",
+        bundleId: "test.bundle.id",
+        appVersion: "1.0.0",
+        isPublished: true
+    }
+    it('respond with 200 and an object that matches what we created', async () => {
+        const { body, status } = await request(app)
+            .post('/api/games')
+            .set('Accept', 'application/json')
+            .send(data)
+        assert.strictEqual(status, 200);
+        assert.strictEqual(body.publisherId, '0987654321');
+        assert.strictEqual(body.name, 'Test App');
+        assert.strictEqual(body.platform, 'android');
+        assert.strictEqual(body.storeId, '5678');
+        assert.strictEqual(body.bundleId, 'test.bundle.id');
+        assert.strictEqual(body.appVersion, '1.0.0');
+        assert.strictEqual(body.isPublished, true);
+    });
+});
+
+/**
+ * Testing post search all game endpoint
+ */
+ describe('POST /api/games/search', () => {
+    it('respond with json containing all games', async () => {
+        const { body, status } = await request(app)
+            .post('/api/games/search')
+            .set('Accept', 'application/json')
+            .send({ name: '', platform: '' })
+        assert.strictEqual(status, 200);
+        assert.strictEqual(body.length, 2);
+        console.log(body)
+    });
+});
+/**
+ * Testing post search  game with name endpoint
+ */
+describe('POST /api/games/search', () => {
+    it('respond with json containing all games', async () => {
+        const { body, status } = await request(app)
+            .post('/api/games/search')
+            .set('Accept', 'application/json')
+            .send({ name: 'app', platform: '' })
+        assert.strictEqual(status, 200);
+        assert.strictEqual(body.length, 2);
+        console.log(body)
+    });
+});
+/**
+ * Testing post search  game with platform endpoint
+ */
+ describe('POST /api/games/search', () => {
+    it('respond with json containing all games', async () => {
+        const { body, status } = await request(app)
+            .post('/api/games/search')
+            .set('Accept', 'application/json')
+            .send({ name: '', platform: 'ios' })
+        assert.strictEqual(status, 200);
+        assert.strictEqual(body.length, 1);
+        console.log(body)
+    });
+});
+
 
 /**
  * Testing update game endpoint
  */
 describe('PUT /api/games/1', () => {
     let data = {
-        id : 1,
+        id: 1,
         publisherId: "999000999",
         name: "Test App Updated",
         platform: "android",
@@ -82,7 +154,7 @@ describe('PUT /api/games/1', () => {
 });
 
 /**
- * Testing update game endpoint
+ * Testing delete game endpoint
  */
 describe('DELETE /api/games/1', () => {
     it('respond with 200', async () => {
@@ -103,7 +175,7 @@ describe('GET /api/games', () => {
             .get('/api/games')
             .set('Accept', 'application/json')
         assert.strictEqual(status, 200);
-        assert.strictEqual(body.length, 0);
+        assert.strictEqual(body.length, 1);
     });
 });
 

@@ -7,6 +7,9 @@ const app = express();
 app.use(bodyParser.json());
 app.use(express.static(`${__dirname}/static`));
 
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 
 app.get('/api/games', async (req, res) => {
   try {
@@ -25,6 +28,23 @@ app.post('/api/games', async (req, res) => {
     return res.send(game)
   } catch (err) {
     console.error('***There was an error creating a game', err);
+    return res.status(400).send(err);
+  }
+})
+
+app.post('/api/games/search', async (req, res) => {
+  const { name, platform } = req.body;
+  const filter = {name: { [Op.like]: '%' + name + '%' }};
+  if ( platform !== '') filter.platform = platform;
+  console.log('filters:', filter)
+  try {
+    const games = await db.Game.findAll({
+      where: filter
+    });
+    console.log('Games', games)
+    return res.send(games);
+  } catch (err) {
+    console.error('***Error searching game', err);
     return res.status(400).send(err);
   }
 })
