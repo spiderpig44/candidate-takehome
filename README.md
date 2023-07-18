@@ -81,9 +81,10 @@ Can you find ways to improve them?
 
 
 - add some tables (publisher, platform)
+- add indexes for updating the list of games only if necessary 
 - using postgres rds in aws 
 - automated recovery of data present in files via APIs with a script launched by schedule aws lambda or cron
-- automate the updating of the various tables by the same way
+- automate the updating of the various tables by the same way (lambda or cron)
 
 
 
