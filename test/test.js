@@ -105,6 +105,7 @@ describe('POST /api/games/search', () => {
         assert.strictEqual(body.length, 2);
     });
 });
+
 /**
  * Testing post search  game with platform endpoint
  */
@@ -173,6 +174,20 @@ describe('GET /api/games', () => {
             .set('Accept', 'application/json')
         assert.strictEqual(status, 200);
         assert.strictEqual(body.length, 1);
+    });
+});
+
+
+/**
+ * Testing post populate games with platform endpoint
+ */
+ describe('POST /api/games/populate', () => {
+    it('respond with result', async () => {
+        const { body, status } = await request(app)
+            .post('/api/games/populate')
+            .set('Accept', 'application/json')
+        assert.strictEqual(status, 200);
+        assert.strictEqual(body.state, 'ok');
     });
 });
 

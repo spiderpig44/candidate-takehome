@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const db = require('./models');
-
+const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 const app = express();
 
 app.use(bodyParser.json());
@@ -44,6 +44,38 @@ app.post('/api/games/search', async (req, res) => {
   } catch (err) {
     console.error('***Error searching game', err);
     return res.status(400).send(err);
+  }
+})
+
+app.post('/api/games/populate', async (req, res) => {
+  try {
+    const url1 = 'https://interview-marketing-eng-dev.s3.eu-west-1.amazonaws.com/android.top100.json';
+    const url2 = 'https://interview-marketing-eng-dev.s3.eu-west-1.amazonaws.com/ios.top100.json';
+
+    const [response1, response2] = await Promise.all([fetch(url1), fetch(url2)]);
+    const data1 = await response1.json();
+    const data2 = await response2.json();
+    const mergedData = [...data1.flat().slice(0, 100), ...data2.flat().slice(0, 100)].flat();
+    const games = mergedData.map(game => ({
+      publisherId: game.publisher_id,
+      name: game.name,
+      platform: game.os,
+      storeId: game.id,
+      bundleId: game.bundle_id,
+      appVersion: game.version,
+      isPublished: true
+    }));
+    try {
+      await db.Game.bulkCreate(games);
+      return res.send({ state: 'ok'  })
+
+    } catch (error) {
+      console.error('***Error populating games', err);
+      return res.status(400).send(err);
+    }
+
+  } catch (error) {
+    console.error('Error fetching JSON:', error);
   }
 })
 

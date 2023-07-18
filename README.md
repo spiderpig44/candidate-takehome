@@ -63,13 +63,28 @@ Many other applications at Voodoo will use consume this API.
 We are planning to put this project in production. According to you, what are the missing pieces to make this project production ready? 
 Please elaborate an action plan.
 
+- You have to paginate the query returning the list of games
+- Display an infinite scroll in the front containing the list of games
+- modify the model to have a unique key to avoid inserting duplicates when importing files and to be able to update only if necessary
+ 
+
 #### Question 2:
 Let's pretend our data team is now delivering new files every day into the S3 bucket, and our service needs to ingest those files
 every day through the populate API. Could you describe a suitable solution to automate this? Feel free to propose architectural changes.
 
+- the easiest solution is to user a lambda to automate this process
+
+
 #### Question 3:
 Both the current database schema and the files dropped in the S3 bucket are not optimal.
 Can you find ways to improve them?
+
+
+- add some tables (publisher, platform)
+- using postgres rds in aws 
+- automated recovery of data present in files via APIs with a script launched by schedule aws lambda or cron
+- automate the updating of the various tables by the same way
+
 
 
 

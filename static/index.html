@@ -38,6 +38,12 @@
       <add-update-game title="Add Game" @save-game="onAddOrUpdateGame" />
     </div>
   </section>
+  <section class="section section-container" style="padding-bottom: 10px;">
+    <div class="box">
+      <h2 class="title">Populate data from s3</h2>
+      <button class="button is-success" @click="populate">Populate</button>
+    </div>
+  </section>
 </div>
 <script>
   const AddUpdateGame = {
@@ -255,8 +261,18 @@
           .then((response) => {
             this.games = response.data
           })
+      },
+      async populate() {
+        return axios.post(`${this.apiURL}/populate`)
+          .then((response) => {
+            axios.get(this.apiURL)
+              .then((response) => {
+                this.games = response.data
+              })
+          })
       }
     },
+    
     beforeMount () {
       axios.get(this.apiURL)
         .then((response) => {
