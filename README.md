@@ -72,7 +72,7 @@ Please elaborate an action plan.
 Let's pretend our data team is now delivering new files every day into the S3 bucket, and our service needs to ingest those files
 every day through the populate API. Could you describe a suitable solution to automate this? Feel free to propose architectural changes.
 
-- the easiest solution is to user a lambda to automate this process
+- the easiest solution is to use a cron to automate this process
 
 
 #### Question 3:
