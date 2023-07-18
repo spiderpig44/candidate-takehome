@@ -66,6 +66,7 @@ Please elaborate an action plan.
 - You have to paginate the query returning the list of games
 - Display an infinite scroll in the front containing the list of games
 - modify the model to have a unique key to avoid inserting duplicates when importing files and to be able to update only if necessary
+- create separates components for the search, the games list ...
  
 
 #### Question 2:
