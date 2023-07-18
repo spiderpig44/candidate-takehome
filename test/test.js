@@ -90,7 +90,6 @@ describe('GET /api/games', () => {
             .send({ name: '', platform: '' })
         assert.strictEqual(status, 200);
         assert.strictEqual(body.length, 2);
-        console.log(body)
     });
 });
 /**
@@ -104,7 +103,6 @@ describe('POST /api/games/search', () => {
             .send({ name: 'app', platform: '' })
         assert.strictEqual(status, 200);
         assert.strictEqual(body.length, 2);
-        console.log(body)
     });
 });
 /**
@@ -118,7 +116,6 @@ describe('POST /api/games/search', () => {
             .send({ name: '', platform: 'ios' })
         assert.strictEqual(status, 200);
         assert.strictEqual(body.length, 1);
-        console.log(body)
     });
 });
 
