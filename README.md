@@ -73,6 +73,7 @@ Let's pretend our data team is now delivering new files every day into the S3 bu
 every day through the populate API. Could you describe a suitable solution to automate this? Feel free to propose architectural changes.
 
 - the easiest solution is to use a cron to automate this process
+- you can use a lambda triggered whenever a new filer is added to S3 bucket and update the database if accessible
 
 
 #### Question 3:
