@@ -36,12 +36,10 @@ app.post('/api/games/search', async (req, res) => {
   const { name, platform } = req.body;
   const filter = {name: { [Op.like]: '%' + name + '%' }};
   if ( platform !== '') filter.platform = platform;
-  console.log('filters:', filter)
   try {
     const games = await db.Game.findAll({
       where: filter
     });
-    console.log('Games', games)
     return res.send(games);
   } catch (err) {
     console.error('***Error searching game', err);
