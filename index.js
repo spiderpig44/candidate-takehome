@@ -66,7 +66,6 @@ app.post('/api/games/populate', async (req, res) => {
       isPublished: true
     }));
     try {
-      await db.Game.truncate();
       await db.Game.bulkCreate(games);
       return res.send({ state: 'ok'  })
 
